@@ -12,7 +12,6 @@
         <div class="modal-content" style="text-align: center;">
             <h2 id="connection-status">Connecting to Metronome...</h2>
             <p id="connection-ip-display" style="margin-bottom: 20px;">IP: ...</p>
-            <!-- The button allows the user to open settings straight from the modal if it fails -->
             <button onclick="openSettingsFromOverlay()" style="width: 120px; height: 120px; font-size: 15px; border-radius: 50%; white-space: normal;">Change IP Settings</button>
         </div>
     </div>
@@ -103,8 +102,7 @@
                 alert('Please enter a valid IP address');
                 return;
             }
-            // updateIp handles pinging, saving, and updating the variables
-            // The overlay will reappear briefly if we want, or keep it hidden. Let's just use updateIp(ip)
+            
             updateIp(ip);
             toggleSettings();
         }
