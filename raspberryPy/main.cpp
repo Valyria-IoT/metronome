@@ -106,14 +106,6 @@ void switchMode() {
         if (bpm == 0) {
             std::cout << "-> ERROR: Not enough beat samples! You must tap at least 4 times." << std::endl;
             
-            // VISUAL ERROR: Blink RED LED 3 times 
-            for(int i = 0; i < 3; i++) {
-                gpioWrite(LED_RED, 1);
-                std::this_thread::sleep_for(100ms);
-                gpioWrite(LED_RED, 0);
-                std::this_thread::sleep_for(100ms);
-            }
-
             mode.store(LEARN);
             m.start_timing(); 
         } else {
@@ -182,6 +174,7 @@ void delete_bpm_max(web::http::http_request msg) {
     rest::addCorsHeaders(response);
     msg.reply(response);
 }
+
 int main() {
     std::cout << "Starting Metronome..." << std::endl;
 
@@ -241,6 +234,7 @@ int main() {
         std::this_thread::sleep_for(10ms);
         
         // --- MODE BUTTON ---
+        // used for avoiding spam of the mode button
         bool current_mode_state = gpioRead(BTN_MODE_RED);
         if (prev_mode_state == BTN_RELEASED && current_mode_state == BTN_PRESSED) {
             auto now = std::chrono::steady_clock::now();
@@ -256,6 +250,7 @@ int main() {
             bool current_tap_state = gpioRead(BTN_TAP_BLUE);
             if (prev_tap_state == BTN_RELEASED && current_tap_state == BTN_PRESSED) {
                 auto now = std::chrono::steady_clock::now();
+                // DEBOUNCE
                 if (std::chrono::duration_cast<std::chrono::milliseconds>(now - last_tap_press).count() > 50) {
                     m.tap(); 
                     std::cout << "Tap registered!" << std::endl;
