@@ -21,9 +21,9 @@ public:
         }
 
         static void addCorsHeaders(web::http::http_response& response) {
-                response.headers().add("Access-Control-Allow-Origin", "*");
-                response.headers().add("Access-Control-Allow-Methods", "GET, PUT, DELETE, OPTIONS");
-                response.headers().add("Access-Control-Allow-Headers", "Content-Type");
+            response.headers().add("Access-Control-Allow-Origin", "*");
+            response.headers().add("Access-Control-Allow-Methods", "GET, PUT, DELETE, OPTIONS");
+            response.headers().add("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
         }
 
 private:
