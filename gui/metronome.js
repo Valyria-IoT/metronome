@@ -1,15 +1,56 @@
- const DEFAULT_IP = 'http://10.194.228.38:8080'; // Default server IP and port
-let IP = localStorage.getItem('metronome-server-url') || DEFAULT_IP;
-let API_BPM = IP + '/bpm/';
-let API_MIN = IP + '/bpm/min/';
-let API_MAX = IP + '/bpm/max/';
+const DEFAULT_IP = '10.194.228.38'; // Default server IP
+const PORT = '8080';
+let IP = localStorage.getItem('metronome-server-ip') || DEFAULT_IP;
+let BASE_URL = `http://${IP}:${PORT}`;
 
-// Function to update the base URL
-function updateBaseUrl(newUrl) {
-    IP = newUrl;
-    API_BPM = IP + '/bpm/';
-    API_MIN = IP + '/bpm/min/';
-    API_MAX = IP + '/bpm/max/';
+let API_BPM = BASE_URL + '/bpm/';
+let API_MIN = BASE_URL + '/bpm/min/';
+let API_MAX = BASE_URL + '/bpm/max/';
+
+// Function to safely update the IP address
+function updateIp(newIp, isInitialLoad = false) {
+    if (isInitialLoad) {
+        document.getElementById('connection-status').innerText = 'Connecting to Metronome...';
+        document.getElementById('connection-ip-display').innerText = `Attempting IP: ${newIp}`;
+    }
+
+    // Only test the bpm endpoint to verify the connection is alive
+    const testUrl = `http://${newIp}:${PORT}/bpm/`;
+
+    fetch(testUrl, { method: 'GET' })
+        .then(response => {
+            if (response.ok) {
+                IP = newIp;
+                localStorage.setItem('metronome-server-ip', IP);
+                BASE_URL = `http://${IP}:${PORT}`;
+                API_BPM = BASE_URL + '/bpm/';
+                API_MIN = BASE_URL + '/bpm/min/';
+                API_MAX = BASE_URL + '/bpm/max/';
+
+                // Hide modal
+                document.getElementById('connection-modal').style.display = 'none';
+
+                if (!isInitialLoad) {
+                    alert(`Successfully connected to ${newIp}:${PORT}`);
+                }
+                
+                refreshAll(); // Refresh data with the newly set IP
+            } else {
+                if (isInitialLoad) {
+                    document.getElementById('connection-status').innerText = `Connection Failed (${response.status})`;
+                } else {
+                    alert(`The IP is reachable, but returned an error (${response.status}).`);
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching new IP:', error);
+            if (isInitialLoad) {
+                document.getElementById('connection-status').innerText = 'Connection Failed (Timeout/Unreachable)';
+            } else {
+                alert(`The IP ${newIp} is not reachable. Please check your connection and the IP address.`);
+            }
+        });
 }
 
 // Function to refresh all BPM values
@@ -87,7 +128,6 @@ function resetMaxBpm() {
 
 // Initial load
 window.onload = () => {
-    getBpm();
-    getMinBpm();
-    getMaxBpm();
+    // Only call updateIp which will handle revealing the UI and calling refreshAll()
+    updateIp(IP, true); 
 };
