@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Valyria Metronome</title>
+        <link rel = "stylesheet" type="text/css" href="style.css">
+
+    </head>
+    <body>
+    <div class="layout-container">
+
+        <!-- LEFT COLUMN -->
+        <div class="left-column">
+            <div id="logo-container"></div>
+            <h1>Valyria Metronome</h1>
+            <p>A simple dashboard for our sleeping dragon's heartbeat.</p>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="right-column">
+            <div class="container">
+                <div class="stats">
+                    <div class="control-group">
+                        <h2>Current BPM</h2>
+                        <div id="current-bpm" class="bpm-display">...</div>
+                        <button onclick="getBpm()">Refresh</button>
+                    </div>
+
+                    <div class="control-group">
+                        <h2>Set BPM</h2><br/>
+                        <input type="number" id="bpm-input" placeholder="Enter BPM"><br/><br/>
+                        <button onclick="setBpm()">Set</button>
+                    </div>
+                </div>
+                <div class="stats">
+                    
+                    <div class="stat">
+                        <h3>Min BPM</h3>
+                        <div id="min-bpm" class="stat-value">...</div>
+                        <button onclick="getMaxBpm()">Refresh</button>
+                        <button onclick="resetMinBpm()">Reset</button>
+                    </div>
+
+                    <div class="stat">
+                        <h3>Max BPM</h3>
+                        <div id="max-bpm" class="stat-value">...</div>
+                        <button onclick="getMaxBpm()">Refresh</button>
+                        <button onclick="resetMaxBpm()">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="metronome.js"></script>
+</body>
+</html>
