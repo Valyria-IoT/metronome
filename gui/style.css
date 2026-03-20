@@ -173,3 +173,170 @@ body {
     flex-direction: column !important;
     justify-content: flex-start !important;
 }
+
+/* Settings Button */
+.settings-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: #c5b6df;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    box-shadow: 0 4px 15px rgba(197, 182, 223, 0.5);
+    transition: background-color 0.3s, transform 0.2s;
+    z-index: 100;
+}
+
+.settings-btn:hover {
+    background-color: #abc8e2;
+    transform: scale(1.1) rotate(90deg);
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 200;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    background-color: rgba(52, 73, 94, 0.95);
+    margin: 10% auto;
+    padding: 2em;
+    border: 2px solid #c5b6df;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    animation: slideDown 0.3s ease-in-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.close {
+    color: #ecf0f1;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close:hover {
+    color: #c5b6df;
+}
+
+.modal h2 {
+    color: #ecf0f1;
+    margin-top: 0;
+    text-align: center;
+}
+
+.settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.settings-form label {
+    color: #bdc3c7;
+    font-size: 0.95em;
+    text-align: left;
+}
+
+.settings-form input[type="text"] {
+    padding: 0.8em;
+    font-size: 0.9em;
+    font-family: 'Share Tech Mono', monospace;
+    border: 1px solid #c5b6df;
+    border-radius: 10px;
+    background-color: rgba(44, 62, 80, 0.9);
+    color: #ecf0f1;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+.settings-form input[type="text"]:focus {
+    outline: none;
+    border-color: #abc8e2;
+    background-color: rgba(44, 62, 80, 1);
+}
+
+.settings-form button {
+    width: auto;
+    height: auto;
+    padding: 0.8em 1.5em;
+    animation: none;
+    border-radius: 8px;
+    margin: 0.5em 0;
+}
+
+.settings-form button:hover {
+    animation: none;
+}
+
+.secondary-btn {
+    background-color: #7f8c8d !important;
+    font-size: 0.9em;
+}
+
+.secondary-btn:hover {
+    background-color: #95a5a6 !important;
+}
+
+.refresh-all-btn {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    width: 80px;
+    height: 80px;
+    background-color: #c5b6df;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75em;
+    box-shadow: 0 4px 15px rgba(197, 182, 223, 0.5);
+    transition: background-color 0.3s, transform 0.2s;
+    z-index: 100;
+    animation: breathing 3s infinite ease-in-out;
+}
+
+.refresh-all-btn:hover {
+    background-color: #abc8e2;
+    transform: scale(1.1);
+    animation-play-state: paused;
+}

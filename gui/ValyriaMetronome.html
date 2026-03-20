@@ -3,10 +3,33 @@
     <head>
         <title>Valyria Metronome</title>
         <link rel = "stylesheet" type="text/css" href="style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     </head>
     <body>
     <div class="layout-container">
+
+        <!-- SETTINGS BUTTON -->
+        <div class="settings-btn" onclick="toggleSettings()">
+            <i class="fas fa-cog"></i>
+        </div>
+
+        <!-- REFRESH ALL BUTTON -->
+        <button class="refresh-all-btn" onclick="refreshAll()">Refresh All</button>
+
+        <!-- SETTINGS MODAL -->
+        <div id="settings-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="toggleSettings()">&times;</span>
+                <h2>Server Settings</h2>
+                <div class="settings-form">
+                    <label for="server-url">Server URL:</label>
+                    <input type="text" id="server-url" placeholder="http://10.194.228.38:8080">
+                    <button onclick="saveUrl()">Save</button>
+                    <button onclick="resetUrl()" class="secondary-btn">Reset to Default</button>
+                </div>
+            </div>
+        </div>
 
         <!-- LEFT COLUMN -->
         <div class="left-column">
@@ -53,5 +76,47 @@
     </div>
 
     <script src="metronome.js"></script>
+    <script>
+        function toggleSettings() {
+            const modal = document.getElementById('settings-modal');
+            modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function saveUrl() {
+            const url = document.getElementById('server-url').value.trim();
+            if (!url) {
+                alert('Please enter a valid URL');
+                return;
+            }
+            localStorage.setItem('metronome-server-url', url);
+            updateBaseUrl(url);
+            alert('URL saved successfully!');
+            toggleSettings();
+            location.reload(); // Reload to apply new URL
+        }
+
+        function resetUrl() {
+            localStorage.removeItem('metronome-server-url');
+            updateBaseUrl('http://10.194.228.38:8080');
+            document.getElementById('server-url').value = 'http://10.194.228.38:8080';
+            alert('URL reset to default');
+            location.reload();
+        }
+
+        // Load saved URL on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedUrl = localStorage.getItem('metronome-server-url');
+            const displayUrl = savedUrl || 'http://10.194.228.38:8080';
+            document.getElementById('server-url').value = displayUrl;
+        });
+
+        // Close modal when clicking outside
+        window.onclick = (event) => {
+            const modal = document.getElementById('settings-modal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+    </script>
 </body>
 </html>
